@@ -37,7 +37,7 @@ args = parser.parse_args()
 
 filelist = glob.glob(args.recog_dir + '/P*')
 
-print 'Evaluate %d video files...' % len(filelist)
+print('Evaluate %d video files...' % len(filelist))
 
 n_frames = 0
 n_errors = 0
@@ -48,4 +48,4 @@ for filename in filelist:
     n_frames += frames
 
 # print frame accuracy (1.0 - frame error rate)
-print 'frame accuracy: %f' % (1.0 - float(n_errors) / n_frames)
+print('frame accuracy: %f' % (1.0 - float(n_errors) / n_frames))

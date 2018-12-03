@@ -7,24 +7,24 @@ Code for the paper NeuralNetwork-Viterbi: A Framework for Weakly Supervised Vide
 * extract it so that you have the `data` folder in the same directory as `train.py`
 * create a  `results` directory in the same directory where you also find `train.py`: `mkdir results`
 
-Requirements: Python2.7 with the libraries numpy and pytorch
+Requirements: Python3.x with the libraries numpy and pytorch (version 0.4.1)
 
 ### Training:
 
-Run `./train.py`
+Run `python3 train.py`
 
 ### Inference:
 
-Run `./infernece.py`
+Run `python3 infernece.py`
 Note: adjust the variable `n_threads` in `inference.py` to your needs.
 
 ### Evaluation:
 
-In the inference step, recognition files are written to the `results` directory. The frame-level ground truth is available in `data/groundTruth`. Run `./eval.py --recog_dir=results --ground_truth_dir=data/groundTruth` to evaluate the frame accuracy of the trained model.
+In the inference step, recognition files are written to the `results` directory. The frame-level ground truth is available in `data/groundTruth`. Run `python eval.py --recog_dir=results --ground_truth_dir=data/groundTruth` to evaluate the frame accuracy of the trained model.
 
 ### Remarks:
 
-We provide a python/pytorch implementation for easy usage. In the paper, we used an internal C++ implementation, so results can be slightly different. Running the provided setup on split1 of Breakfast should lead to roughly 42% frame accuracy.
+We provide a python/pytorch implementation for easy usage. In the paper, we used a faster in-house C++ implementation, so results can be slightly different. Running the provided setup on split1 of Breakfast should lead to roughly 42% frame accuracy.
 
 If you use the code, please cite
 

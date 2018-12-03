@@ -1,8 +1,8 @@
 #!/usr/bin/python2.7
 
 import numpy as np
-from grammar import PathGrammar
-from length_model import PoissonModel
+from .grammar import PathGrammar
+from .length_model import PoissonModel
 import glob
 import re
 
@@ -82,7 +82,7 @@ class Viterbi(object):
 
     def decode_frame(self, t, old_hyp, frame_scores):
         new_hyp = self.HypDict()
-        for key, hyp in old_hyp.iteritems():
+        for key, hyp in old_hyp.items():
             context, label, length = key[0:-2], key[-2], key[-1]
             # stay in the same label...
             new_key = context + (label, min(length + self.frame_sampling, self.length_model.max_length()))
@@ -101,7 +101,7 @@ class Viterbi(object):
 
     def finalize_decoding(self, old_hyp):
         final_hyp = self.HypDict.Hypothesis(-np.inf, None)
-        for key, hyp in old_hyp.iteritems():
+        for key, hyp in old_hyp.items():
             context, label, length = key[0:-2], key[-2], key[-1]
             context = context + (label,)
             score = hyp.score + self.length_model.score(length, label) + self.grammar.score(context, self.grammar.end_symbol())

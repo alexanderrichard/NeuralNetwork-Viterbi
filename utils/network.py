@@ -7,8 +7,8 @@ from torch.autograd import Variable
 import torch.utils.data
 import torch.nn as nn
 import torch.optim as optim
-from grammar import SingleTranscriptGrammar
-from length_model import PoissonModel
+from .grammar import SingleTranscriptGrammar
+from .length_model import PoissonModel
 
 
 # buffer for old sequences (robustness enhancement: old frames are sampled from the buffer during training)
@@ -69,9 +69,9 @@ class DataWrapper(torch.utils.data.Dataset):
         self.window_size = window_size
         # extract temporal window around each frame of the sequence
         for frame in range(sequence.shape[1]):
-            left, right = max(0, frame - window_size / 2), min(sequence.shape[1], frame + 1 + window_size / 2)
+            left, right = max(0, frame - window_size // 2), min(sequence.shape[1], frame + 1 + window_size // 2)
             tmp = np.zeros((sequence.shape[0], window_size), dtype=np.float32 )
-            tmp[:, window_size / 2 - (frame - left) : window_size / 2 + (right - frame)] = sequence[:, left : right]
+            tmp[:, window_size // 2 - (frame - left) : window_size // 2 + (right - frame)] = sequence[:, left : right]
             self.features.append(np.transpose(tmp))
             self.labels.append(-1) # dummy label, will be updated after Viterbi decoding
 
@@ -80,9 +80,9 @@ class DataWrapper(torch.utils.data.Dataset):
     # @label the Viterbi decoding label for the frame at frame_idx
     # @frame_idx the index of the frame to sample
     def add_buffered_frame(self, sequence, label, frame_idx):
-        left, right = max(0, frame_idx - self.window_size / 2), min(sequence.shape[1], frame_idx + 1 + self.window_size / 2)
+        left, right = max(0, frame_idx - self.window_size // 2), min(sequence.shape[1], frame_idx + 1 + self.window_size // 2)
         tmp = np.zeros((sequence.shape[0], self.window_size), dtype=np.float32 )
-        tmp[:, self.window_size / 2 - (frame_idx - left) : self.window_size / 2 + (right - frame_idx)] = sequence[:, left : right]
+        tmp[:, self.window_size // 2 - (frame_idx - left) : self.window_size // 2 + (right - frame_idx)] = sequence[:, left : right]
         self.features.append(np.transpose(tmp))
         self.labels.append(label)
 

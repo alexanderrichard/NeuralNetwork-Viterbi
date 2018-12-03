@@ -2,7 +2,7 @@
 
 import numpy as np
 import multiprocessing as mp
-import Queue
+import queue
 from utils.dataset import Dataset
 from utils.network import Forwarder
 from utils.grammar import PathGrammar
@@ -23,7 +23,7 @@ def decode(queue, log_probs, decoder, index2label):
                 f.write( '### Score: ###\n' + str(score) + '\n')
                 f.write( '### Frame level recognition: ###\n')
                 f.write( ' '.join( [index2label[l] for l in labels] ) + '\n' )
-        except Queue.Empty:
+        except queue.Empty:
             pass
 
 
@@ -53,13 +53,13 @@ forwarder.load_model('results/network.iter-' + str(load_iteration) + '.net')
 n_threads = 8
 
 # Viterbi decoder
-viterbi_decoder = Viterbi(grammar, length_model, frame_sampling = 30)
+viterbi_decoder = Viterbi(grammar, length_model, frame_sampling = 30, max_hypotheses = np.inf)
 # forward each video
 log_probs = dict()
 queue = mp.Queue()
 for i, data in enumerate(dataset):
     sequence, _ = data
-    video = dataset.features.keys()[i]
+    video = list(dataset.features.keys())[i]
     queue.put(video)
     log_probs[video] = forwarder.forward(sequence) - log_prior
     log_probs[video] = log_probs[video] - np.max(log_probs[video])

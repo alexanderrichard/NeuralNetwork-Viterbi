@@ -22,11 +22,11 @@ class Dataset(object):
             with open(base_path + '/transcripts/' + video + '.txt') as f:
                 self.transcript[video] = [ label2index[line] for line in f.read().split('\n')[0:-1] ]
         # selectors for random shuffling
-        self.selectors = self.features.keys()
+        self.selectors = list(self.features.keys())
         if self.shuffle:
             random.shuffle(self.selectors)
         # set input dimension and number of classes
-        self.input_dimension = self.features.values()[0].shape[0]
+        self.input_dimension = list(self.features.values())[0].shape[0]
         self.n_classes = len(label2index)
 
     def videos(self):
@@ -38,7 +38,7 @@ class Dataset(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.idx == len(self):
             self.idx = 0
             if self.shuffle:
@@ -51,7 +51,7 @@ class Dataset(object):
 
     def get(self):
         try:
-            return self.next()
+            return self.__next__()
         except StopIteration:
             return self.get()
 
