@@ -85,9 +85,10 @@ class Viterbi(object):
         for key, hyp in old_hyp.items():
             context, label, length = key[0:-2], key[-2], key[-1]
             # stay in the same label...
-            new_key = context + (label, min(length + self.frame_sampling, self.length_model.max_length()))
-            score = hyp.score + self.frame_score(frame_scores, t, label)
-            new_hyp.update(new_key, score, self.TracebackNode(label, hyp.traceback, boundary = False))
+            if length + self.frame_sampling <= self.length_model.max_length():
+                new_key = context + (label, length + self.frame_sampling)
+                score = hyp.score + self.frame_score(frame_scores, t, label)
+                new_hyp.update(new_key, score, self.TracebackNode(label, hyp.traceback, boundary = False))
             # ... or go to the next label
             context = context + (label,)
             for new_label in self.grammar.possible_successors(context):
