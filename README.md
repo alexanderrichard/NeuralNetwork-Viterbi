@@ -7,7 +7,7 @@ Code for the paper NeuralNetwork-Viterbi: A Framework for Weakly Supervised Vide
 * extract it so that you have the `data` folder in the same directory as `train.py`
 * create a  `results` directory in the same directory where you also find `train.py`: `mkdir results`
 
-The data for 50Salads is also available online: https://uni-bonn.sciebo.de/s/j4Ae3JtcsWvJCcf
+The data for 50Salads is also available online: https://uni-bonn.sciebo.de/s/MUdKRA3xLhrW2ZE
 
 Requirements: Python3.x with the libraries numpy and pytorch (version 0.4.1)
 
