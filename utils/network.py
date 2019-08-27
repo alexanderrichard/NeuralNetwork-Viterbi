@@ -107,6 +107,7 @@ class Net(nn.Module):
     def forward(self, x):
         output, dummy = self.gru(x)
         output = self.fc(output)
+        output = output[:, -1:, :]
         output = nn.functional.log_softmax(output, dim=2) # tensor is of shape (batch_size, 1, features)
         return output
 
