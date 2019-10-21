@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 
 import random
 import numpy as np
@@ -107,6 +107,7 @@ class Net(nn.Module):
     def forward(self, x):
         output, dummy = self.gru(x)
         output = output[:, -1:, :]
+        output = torch.transpose(output, 0, 1)
         output = self.fc(output)
         output = nn.functional.log_softmax(output, dim=2) # tensor is of shape (batch_size, 1, features)
         return output
@@ -210,7 +211,7 @@ class Trainer(Forwarder):
             loss = self.criterion(output, target)
             loss.backward()
             optimizer.step()
-            sequence_loss += loss.data[0] * input.shape[0] / len(data_wrapper)
+            sequence_loss += loss.item() * input.shape[0] / len(data_wrapper)
         # add sequence to buffer
         self.buffer.add_sequence(sequence, transcript, labels)
         # update prior and mean lengths
