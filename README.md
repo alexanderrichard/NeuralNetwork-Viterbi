@@ -3,7 +3,7 @@ Code for the paper NeuralNetwork-Viterbi: A Framework for Weakly Supervised Vide
 
 ### Prepraration:
 
-* download the data from https://uni-bonn.sciebo.de/s/5ZEp7uWAVRQQMnh
+* download the data from https://uni-bonn.sciebo.de/s/wOxTiWe5kfeY4Vd
 * extract it so that you have the `data` folder in the same directory as `train.py`
 * create a  `results` directory in the same directory where you also find `train.py`: `mkdir results`
 
